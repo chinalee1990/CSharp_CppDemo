@@ -17,41 +17,47 @@ namespace CSharpCppDemo
         {
             InitializeComponent();
             this.Text = "实验仿真系统";
-
+            sCppDll.iCppDll_clr.SetCallBack(CallBack_ForCpp);
+            sCppDll.iCppDll_clr.Handle("StartRun");
+            button3.Enabled = false;        //目前CPP库中显示窗体会失败
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            sCppDll.iCppDll_clr.Handle("StartRun");
-
             sCppDll.iCppDll_clr.Handle("Button 1 CLick");
         }
 
 
-        protected override void WndProc(ref Message msg)
-        {
-            switch (msg.Msg)
-            {
-                case 0x0400+1:
+        //protected override void WndProc(ref Message msg)
+        //{
+        //    switch (msg.Msg)
+        //    {
+        //        case 0x0400+1:
 
-                string strWParam = Marshal.PtrToStringAnsi(msg.WParam);
-                string strLParam = Marshal.PtrToStringAnsi(msg.LParam);
+        //        string strWParam = Marshal.PtrToStringAnsi(msg.WParam);
+        //        string strLParam = Marshal.PtrToStringAnsi(msg.LParam);
         
-                label1.Text = strWParam + "  " + strLParam;
+        //        label1.Text = strWParam + "  " + strLParam;
 
-                m_nCount++;
+        //        m_nCount++;
 
-                label2.Text = m_nCount.ToString();
+        //        label2.Text = m_nCount.ToString();
 
-                if (m_nCount==10000)
-                {
-                   // GC.Collect(0);
-                    m_nCount = 0;
-                }
-                break;
-            }
-            base.WndProc(ref msg);
+        //        if (m_nCount==10000)
+        //        {
+        //           // GC.Collect(0);
+        //            m_nCount = 0;
+        //        }
+        //        break;
+        //    }
+        //    base.WndProc(ref msg);
 
+        //}
+
+
+        private void CallBack_ForCpp(Object obj)
+        {
+            label2.Text = obj.ToString();                           //显示Cpp返回的信息
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -63,13 +69,13 @@ namespace CSharpCppDemo
 
         private void button2_Click(object sender, EventArgs e)
         {
-            sCppDll.iCppDll_clr.Handle("Stop");
+            sCppDll.iCppDll_clr.Handle("Button 2 CLick");
 
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            sCppDll.iCppDll_clr.ShowWindow();
+            //sCppDll.iCppDll_clr.ShowWindow();
         }
 
     }

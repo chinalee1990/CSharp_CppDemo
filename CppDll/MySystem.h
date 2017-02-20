@@ -29,8 +29,8 @@ public:
 
 	static UINT TimerSendThreadFunc(LPVOID lpParam);
 
-	void SendMsg();
-	std::string m_recvMsg;
+	void SendMsg(std::string &strMsg);
+	//std::string m_recvMsg;
 
 };
 

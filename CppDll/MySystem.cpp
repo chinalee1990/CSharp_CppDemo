@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MySystem.h"
-#include "iToUi.h"
+//#include "iToUi.h"
+#include "iCppDll_clr.h"
 
 MySystem* MySystem::m_instance = NULL;
 
@@ -31,7 +32,7 @@ void MySystem::DelInstance()
 void MySystem::Start()
 {
 	m_threadSys.StartThread(this, ThreadFunc, _T(""), 0);
-	m_threadTimer.StartThread(this, TimerSendThreadFunc, _T(""), 0);
+	//m_threadTimer.StartThread(this, TimerSendThreadFunc, _T(""), 0);
 
 }
 
@@ -83,7 +84,7 @@ UINT MySystem::ThreadFunc(LPVOID lpParam)
 			handle->ExeMsg(*strMsg);
 
 			delete strMsg;
-			TRACE("%s\r\n", handle->m_recvMsg.c_str());
+			//TRACE("%s\r\n", handle->m_recvMsg.c_str());
 
 		}
 
@@ -100,27 +101,29 @@ UINT MySystem::ThreadFunc(LPVOID lpParam)
 
 void MySystem::ExeMsg(std::string &strMsg)
 {
-	m_recvMsg = strMsg;
-	TRACE("%s\r\n", m_recvMsg.c_str());
+	//m_recvMsg = strMsg;
+	std::string strMsg1 = "Cpp 处理消息：" + strMsg;
+	SendMsg(strMsg1);
+	//TRACE("Cpp 处理消息：%s\r\n", m_recvMsg.c_str());
 }
 
-UINT MySystem::TimerSendThreadFunc(LPVOID lpParam)
+//UINT MySystem::TimerSendThreadFunc(LPVOID lpParam)
+//{
+//	MyThread *thread = (MyThread *)lpParam;
+//	MySystem *handle = (MySystem *)thread->m_pHandleClass;
+//
+//	while (handle->m_threadTimer.isThreadRun())
+//	{
+//		handle->SendMsg();
+//		Sleep(10);
+//	}
+//	return 0;
+//}
+
+void MySystem::SendMsg(std::string &strMsg)
 {
-	MyThread *thread = (MyThread *)lpParam;
-	MySystem *handle = (MySystem *)thread->m_pHandleClass;
-
-	while (handle->m_threadTimer.isThreadRun())
-	{
-		handle->SendMsg();
-		Sleep(10);
-	}
-	return 0;
-}
-
-void MySystem::SendMsg()
-{
-	if (m_recvMsg == "Stop")
-		return;
-	iToUi::PostMessageToUi(m_recvMsg);
-
+	//if (m_recvMsg == "Stop")
+	//	return;
+	//iToUi::PostMessageToUi(strMsg);
+	sCppDll::iCppDll_clr::SendToUi(strMsg);
 }

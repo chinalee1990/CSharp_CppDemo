@@ -57,7 +57,8 @@ void iToUi::PostMessageToUi(const std::string &strMsg)
 	//String ^str = gcnew String(strInfo);
 
 	SendMessage(hWnd, WM_USER_MYMSG, (WPARAM)info, 0);
-	
+	//PostMessage(hWnd, WM_USER_MYMSG, (WPARAM)info, (LPARAM)info1);
+
 	//PostMessage(hWnd, WM_USER_MYMSG, (WPARAM)info, (LPARAM)&"/SendMessage(hWnd, WM_USER_MYMSG, (WHWND hWnd = FindWindow(NULL, _T(\"实验仿真系统\"));\"PARAM)&str, 0\void iToUi::PostMessageToUi(const std::string &strMsg)");
 	//delete info;
 }
